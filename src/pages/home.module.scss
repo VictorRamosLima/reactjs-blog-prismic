@@ -1,0 +1,42 @@
+.container {
+  width: 100%;
+
+  .bodyWrapper {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 2rem;
+
+    button {
+      background: transparent;
+      color: var(--highlighting);
+      font-weight: bold;
+      font-size: 1.123rem;
+      line-height: 22px;
+      transition: filter 0.2s;
+      margin: 4.125rem 0 5rem;
+
+      &:hover {
+        filter: brightness(0.8);
+      }
+    }
+
+    .posts {
+      a {
+        display: block;
+
+        h2 {
+          margin-bottom: 0.5rem;
+        }
+
+        div.info {
+          margin-top: 1.5rem;
+          display: flex;
+        }
+
+        & + a {
+          margin-top: 3.25rem;
+        }
+      }
+    }
+  }
+}

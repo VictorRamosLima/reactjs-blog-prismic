@@ -1,0 +1,29 @@
+.heading {
+  color: var(--heading);
+}
+
+.body {
+  color: var(--body);
+}
+
+.info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  color: var(--info);
+  font-weight: normal;
+  font-style: normal;
+  font-size: 14px;
+  line-height: 17px;
+
+  svg {
+    width: 1.25rem;
+    height: 1.25rem;
+    margin-right: 0.5rem;
+  }
+
+  & + .info {
+    margin-left: 1.5rem;
+  }
+}

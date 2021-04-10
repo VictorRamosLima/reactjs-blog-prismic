@@ -1,0 +1,33 @@
+.container {
+  width: 100%;
+  height: 5rem;
+
+  .content {
+    max-width: 1120px;
+    height: 5rem;
+    margin: 0 auto;
+    padding: 0 2rem;
+
+    display: flex;
+    align-items: center;
+
+    a {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+
+      .logoId {
+        margin-right: 1rem;
+      }
+
+      img {
+        margin-right: 5px;
+      }
+
+      span {
+        color: var(--highlighting);
+        font-size: 2rem;
+      }
+    }
+  }
+}

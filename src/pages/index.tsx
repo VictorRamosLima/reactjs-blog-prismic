@@ -8,6 +8,8 @@ import { RichText } from 'prismic-dom';
 
 import { getPrismicClient } from '../services/prismic';
 
+import Header from '../components/Header';
+
 import commonStyles from '../styles/common.module.scss';
 import styles from './home.module.scss';
 
@@ -24,13 +26,23 @@ interface Post {
 }
 
 interface PostPagination {
-  next_page: string;
+  next_page: string | null;
   results: Post[];
 }
 
 interface HomeProps {
   postsPagination: PostPagination;
 }
+
+const toPosts = post => ({
+  uid: post.uid,
+  first_publication_date: formatDate(post.first_publication_date),
+  data: {
+    title: RichText.asText(post.data.title),
+    subtitle: post.data.subtitle,
+    author: post.data.author,
+  },
+})
 
 export default function Home({
   postsPagination: { results, next_page },
@@ -43,15 +55,7 @@ export default function Home({
       fetch(nextPage)
         .then(rawResponse => rawResponse.json())
         .then(response => {
-          const fetchedPosts = response.results.map(post => ({
-            uid: post.uid,
-            first_publication_date: formatDate(post.first_publication_date),
-            data: {
-              title: RichText.asText(post.data.title),
-              subtitle: post.data.subtitle,
-              author: post.data.author,
-            },
-          }));
+          const fetchedPosts = response.results.map(toPosts);
 
           setNextPage(response.next_page);
           setPosts([...posts, ...fetchedPosts]);
@@ -64,6 +68,8 @@ export default function Home({
       <Head>
         <title>Posts | spacetraveling</title>
       </Head>
+
+      <Header />
 
       <main className={styles.container}>
         <div className={styles.bodyWrapper}>
@@ -110,15 +116,7 @@ export const getStaticProps: GetStaticProps = async () => {
     }
   );
 
-  const posts = results.map(post => ({
-    uid: post.uid,
-    first_publication_date: formatDate(post.first_publication_date),
-    data: {
-      title: RichText.asText(post.data.title),
-      subtitle: post.data.subtitle,
-      author: post.data.author,
-    },
-  }));
+  const posts = results.map(toPosts);
 
   const postsPagination = { results: posts, next_page };
 

@@ -1,0 +1,17 @@
+.container {
+  &.alignRight {
+    text-align: right;
+  }
+
+  h4 {
+    font-size: 1.125rem;
+    color: var(--heading);
+    margin-bottom: 0.5rem;
+  }
+
+  p {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--highlighting);
+  }
+}

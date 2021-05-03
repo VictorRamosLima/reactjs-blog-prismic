@@ -9,13 +9,18 @@
   }
 
   .post {
-    max-width: 1120px;
+    max-width: 700px;
     margin: 5rem auto;
 
     .info {
       display: flex;
       flex-direction: row;
       justify-content: flex-start;
+    }
+
+    .lastPublicationDate {
+      display: block;
+      margin-top: 1rem;
     }
 
     h1 {
@@ -46,6 +51,39 @@
           margin-bottom: 4rem;
         }
       }
+
+      .postContent {
+        margin-top: 2rem;
+        line-height: 2rem;
+        font-size: 1.125rem;
+        color: var(--body);
+    
+        p, ul, ol {
+          margin: 1.5rem 0;
+        }
+    
+        ul, ol {
+          padding-left: 1.5rem;
+    
+          li {
+            margin: 0.5rem 0;
+          }
+        }
+      }
     }
   }
+}
+
+.division {
+  max-width: 700px;
+  margin: 3rem auto;
+}
+
+.postReferences {
+  margin: 0 auto 5rem;
+  max-width: 700px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 }

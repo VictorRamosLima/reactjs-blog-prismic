@@ -1,0 +1,16 @@
+.previewModeButton {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--background);
+  background: var(--heading);
+  padding: 1.125rem 0;
+  width: 100%;
+  max-width: 700px;
+  border-radius: 0.25rem;
+  margin: 5.5rem auto 1rem;
+  transition: filter 0.2s;
+}
+
+.previewModeButton:hover {
+  filter: brightness(0.8);
+}

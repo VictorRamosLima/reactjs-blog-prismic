@@ -17,6 +17,7 @@ import styles from './post.module.scss';
 import { formatDate } from '../../utils/formatDate';
 import { formatDateAndHour } from '../../utils/formatDateAndHour';
 import { PostReference } from '../../components/PostReference';
+import { ExitFromPreviewModeButton } from '../../components/ExitFromPreviewModeButton';
 
 interface Post {
   uid: string;
@@ -38,6 +39,7 @@ interface PostProps {
   previousPost: Post | null;
   nextPost: Post | null;
   Post: Post | null;
+  preview: boolean;
 }
 
 const toPost = (result?) => {
@@ -63,6 +65,7 @@ export default function Post({
   post: { data, first_publication_date, last_publication_date },
   previousPost,
   nextPost,
+  preview,
 }: PostProps): JSX.Element {
   const router = useRouter()
   const readingTime = data.content.reduce(
@@ -80,7 +83,7 @@ export default function Post({
     script.crossOrigin = 'anonymous';
 
     script.setAttribute('repo', 'VictorRamosLima/spacetraveling-utterances');
-    script.setAttribute('issue-term', 'url');
+    script.setAttribute('issue-term', 'pathname');
     script.setAttribute('label', 'blog-comment');
     script.setAttribute('theme', 'github-dark');
 
@@ -164,6 +167,12 @@ export default function Post({
           </div>
 
           <div id="inject-comments-for-uterances" />
+
+          {preview && (
+            <div className={styles.previewSection}>
+              <ExitFromPreviewModeButton />
+            </div>
+          )}
         </>
       )
   );
@@ -185,7 +194,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   };
 };
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
+export const getStaticProps: GetStaticProps = async ({ params, preview = false }) => {
   const { slug } = params;
 
   const prismic = getPrismicClient();
@@ -217,5 +226,5 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   const nextPost = toPost(nextResponse?.results[0]) || null;
 
   const post = toPost(response)
-  return { props: { post, previousPost, nextPost }, revalidate: 60 * 60 };
+  return { props: { post, previousPost, nextPost, preview }, revalidate: 60 * 60 };
 };

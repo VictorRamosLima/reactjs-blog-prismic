@@ -14,6 +14,7 @@ import commonStyles from '../styles/common.module.scss';
 import styles from './home.module.scss';
 
 import { formatDate } from '../utils/formatDate';
+import { ExitFromPreviewModeButton } from '../components/ExitFromPreviewModeButton';
 
 interface Post {
   uid?: string;
@@ -32,6 +33,7 @@ interface PostPagination {
 
 interface HomeProps {
   postsPagination: PostPagination;
+  preview: boolean;
 }
 
 const toPosts = post => ({
@@ -46,6 +48,7 @@ const toPosts = post => ({
 
 export default function Home({
   postsPagination: { results, next_page },
+  preview,
 }: HomeProps): JSX.Element {
   const [posts, setPosts] = useState<Post[]>([...results]);
   const [nextPage, setNextPage] = useState<string>(next_page);
@@ -96,23 +99,29 @@ export default function Home({
           </div>
 
           {nextPage && (
-            <button type="button" onClick={() => handleFetchPosts()}>
+            <button type="button" className={styles.fetchMore} onClick={() => handleFetchPosts()}>
               Carregar mais posts
             </button>
           )}
+
+          {preview && <ExitFromPreviewModeButton />}
         </div>
       </main>
     </>
   );
 }
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getStaticProps: GetStaticProps = async ({
+  preview = false,
+  previewData,
+}) => {
   const prismic = getPrismicClient();
   const { results, next_page } = await prismic.query(
     [Prismic.predicates.at('document.type', 'post')],
     {
       fetch: ['post.title', 'post.subtitle', 'post.author'],
       pageSize: 20,
+      ref: previewData?.ref ?? null,
     }
   );
 
@@ -120,5 +129,5 @@ export const getStaticProps: GetStaticProps = async () => {
 
   const postsPagination = { results: posts, next_page };
 
-  return { props: { postsPagination }, revalidate: 60 * 60 };
+  return { props: { postsPagination, preview }, revalidate: 60 * 60 };
 };
